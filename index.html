@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>카카오 ASAP 참여 가능여부 확인기</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255, 232, 18, 0.55), transparent 34%),
+        linear-gradient(180deg, #f7f8fb 0%, #eef1f6 100%);
+      color: #222;
+    }
+
+    .wrap {
+      width: min(980px, 92%);
+      margin: 44px auto;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #ffe812 0%, #fff4a0 100%);
+      border-radius: 30px;
+      padding: 36px;
+      box-shadow: 0 18px 48px rgba(0,0,0,0.10);
+      margin-bottom: 24px;
+    }
+
+    .hero::after {
+      content: "ASAP";
+      position: absolute;
+      right: -28px;
+      bottom: -38px;
+      font-size: 130px;
+      font-weight: 1000;
+      letter-spacing: -8px;
+      color: rgba(0,0,0,0.08);
+      line-height: 1;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.88);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 12px;
+      font-size: clamp(30px, 5vw, 52px);
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+    }
+
+    .subtitle {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: #3e3e3e;
+      font-size: 17px;
+      line-height: 1.6;
+      max-width: 670px;
+    }
+
+
+    .benefit-panels {
+      margin: 24px 0 0;
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 14px;
+      max-width: 920px;
+    }
+
+    .benefit-panel {
+      position: relative;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(34, 34, 34, 0.12);
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+      backdrop-filter: blur(6px);
+    }
+
+    .benefit-panel::after {
+      content: "";
+      position: absolute;
+      right: -60px;
+      top: -60px;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: rgba(255, 232, 18, 0.44);
+      pointer-events: none;
+    }
+
+    .benefit-title {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 14px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: #222;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 1000;
+      line-height: 1;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.13);
+    }
+
+    .benefit-content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr 1fr;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .benefit-content.two-col {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .benefit-item {
+      min-height: 76px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 7px;
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(34, 34, 34, 0.08);
+      color: #222;
+      line-height: 1.42;
+    }
+
+    .benefit-item.main {
+      background: linear-gradient(135deg, #222 0%, #3a3324 100%);
+      color: #fff;
+      border-color: rgba(0,0,0,0.1);
+    }
+
+    .benefit-main {
+      font-size: clamp(22px, 2.6vw, 32px);
+      font-weight: 1000;
+      letter-spacing: -0.9px;
+      white-space: nowrap;
+    }
+
+    .benefit-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      align-self: flex-start;
+      min-width: 48px;
+      height: 27px;
+      border-radius: 999px;
+      padding: 0 10px;
+      background: #ff6240;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 1000;
+      box-shadow: 0 5px 12px rgba(255, 98, 64, 0.22);
+    }
+
+    .benefit-copy {
+      font-size: 13px;
+      font-weight: 850;
+      line-height: 1.46;
+      word-break: keep-all;
+      color: #333;
+    }
+
+    .benefit-item.main .benefit-copy {
+      color: rgba(255,255,255,0.78);
+    }
+
+    .agency-benefit {
+      position: relative;
+      min-height: 70px;
+      align-items: center;
+      text-align: center;
+      font-size: clamp(17px, 2.2vw, 24px);
+      font-weight: 1000;
+      color: #3a240f;
+      letter-spacing: -0.5px;
+    }
+
+    .agency-benefit::before {
+      content: "";
+      width: 34px;
+      height: 4px;
+      border-radius: 999px;
+      background: #ff6240;
+      margin-bottom: 2px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 18px 0 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .info {
+      background: rgba(255,255,255,0.62);
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 18px;
+      padding: 14px;
+      backdrop-filter: blur(4px);
+    }
+
+    .info small {
+      display: block;
+      color: #777;
+      font-weight: 800;
+      margin-bottom: 5px;
+    }
+
+    .info strong {
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+
+    .intro-screen {
+      display: block;
+    }
+
+    .start-box {
+      margin-top: 24px;
+      background: #fff;
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: 0 14px 38px rgba(28, 31, 38, 0.09);
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .start-btn {
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 62px;
+      border-radius: 20px;
+      background: #222;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 1000;
+      text-align: center;
+    }
+
+    .survey-screen,
+    .result-screen {
+      display: none;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: 0 14px 38px rgba(28, 31, 38, 0.09);
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .progress-area {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .step-label {
+      min-width: 74px;
+      font-weight: 900;
+      color: #555;
+      font-size: 14px;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 10px;
+      background: #edf0f5;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: #222;
+      border-radius: 999px;
+      transition: width 0.25s ease;
+    }
+
+    .question {
+      font-size: clamp(24px, 3.5vw, 34px);
+      font-weight: 950;
+      letter-spacing: -0.9px;
+      line-height: 1.35;
+      margin: 16px 0 18px;
+      max-width: 820px;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      white-space: pre-line;
+    }
+
+    .hint {
+      padding: 15px 17px;
+      background: #f5f6f8;
+      border-radius: 17px;
+      color: #626262;
+      line-height: 1.58;
+      margin-bottom: 24px;
+      font-size: 15px;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      white-space: pre-line;
+    }
+
+    .choices {
+      display: grid;
+      gap: 12px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 18px;
+      padding: 17px 18px;
+      font-size: 17px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+      text-align: left;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.10);
+    }
+
+    .choice {
+      background: #f1f3f7;
+      color: #222;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .choice.primary {
+      background: #222;
+      color: #fff;
+    }
+
+    .choice span:last-child {
+      opacity: .45;
+      font-weight: 950;
+    }
+
+    .ghost {
+      width: 100%;
+      margin-top: 14px;
+      background: #fff;
+      color: #555;
+      border: 1px solid #e5e7eb;
+      font-size: 15px;
+      padding: 14px;
+      text-align: center;
+    }
+
+    .result { display: none; }
+
+    .result-header {
+      margin-bottom: 18px;
+    }
+
+    .result-kicker {
+      display: inline-block;
+      padding: 8px 12px;
+      background: #222;
+      color: #fff;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+
+    .result-title {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 1000;
+      line-height: 1.18;
+      margin: 0 0 14px;
+      letter-spacing: -1.2px;
+    }
+
+    .result-desc {
+      font-size: 17px;
+      line-height: 1.7;
+      color: #555;
+      margin: 0;
+    }
+
+    .page-indicator {
+      display: flex;
+      gap: 10px;
+      margin: 16px 0 22px;
+      flex-wrap: wrap;
+    }
+
+    .page-chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #f1f3f7;
+      color: #666;
+      font-size: 14px;
+      font-weight: 900;
+      border: 1px solid #e6e9ef;
+      text-align: center;
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .page-chip:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+    }
+
+    .page-chip.active {
+      background: #222;
+      color: #fff;
+      border-color: #222;
+    }
+
+    .result-page {
+      display: none;
+      min-height: 320px;
+    }
+
+    .result-page.active {
+      display: block;
+    }
+
+    .apply-box {
+      display: none;
+      margin: 0 0 22px;
+      padding: 20px;
+      border-radius: 22px;
+      background: #fff8cb;
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .apply-box strong {
+      display: block;
+      font-size: 20px;
+      font-weight: 1000;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .apply-box p {
+      margin: 0 0 14px;
+      color: #5f5200;
+      line-height: 1.55;
+      font-size: 15px;
+    }
+
+    .apply-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 54px;
+      border-radius: 17px;
+      background: #222;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 950;
+      font-size: 17px;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .apply-link + .apply-link {
+      margin-top: 10px;
+      background: #fff;
+      color: #222;
+      border: 1px solid rgba(0,0,0,0.14);
+    }
+
+    .apply-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .summary-box {
+      border-radius: 20px;
+      padding: 18px;
+      background: #f7f8fb;
+      border: 1px solid #edf0f5;
+      min-height: 96px;
+    }
+
+    .summary-box small {
+      display: block;
+      color: #888;
+      font-weight: 900;
+      margin-bottom: 7px;
+    }
+
+    .summary-box strong {
+      display: block;
+      font-size: 17px;
+      line-height: 1.45;
+    }
+
+    .notice {
+      border-left: 5px solid #222;
+      background: #fff8cb;
+      border-radius: 16px;
+      padding: 16px 18px;
+      line-height: 1.65;
+      color: #4b4200;
+      margin: 18px 0;
+    }
+
+    .calc-area {
+      padding: 22px;
+      border-radius: 22px;
+      background: #f7f8fb;
+      border: 1px solid #edf0f5;
+    }
+
+    .calc-title {
+      font-weight: 950;
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
+
+    .calc-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: #666;
+      font-weight: 900;
+      margin-bottom: 7px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      border: 1px solid #dfe3eb;
+      border-radius: 14px;
+      padding: 14px 13px;
+      font-size: 15px;
+      font-weight: 800;
+      outline: none;
+      background: #fff;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #222;
+    }
+
+    .fixed-info-text {
+      padding: 6px 0 0;
+      font-size: 16px;
+      font-weight: 950;
+      color: #222;
+      line-height: 1.5;
+    }
+
+    .calc-btn {
+      width: 100%;
+      text-align: center;
+      background: #222;
+      color: #fff;
+      margin-top: 4px;
+    }
+
+    .calc-result {
+      margin-top: 14px;
+      padding: 16px;
+      background: #fff;
+      border-radius: 16px;
+      line-height: 1.7;
+      color: #444;
+      display: none;
+    }
+
+    .empty-box {
+      padding: 28px 24px;
+      background: #f7f8fb;
+      border: 1px solid #edf0f5;
+      border-radius: 20px;
+      color: #666;
+      line-height: 1.65;
+      font-size: 16px;
+    }
+
+    .history {
+      border-top: 1px solid #edf0f5;
+      padding-top: 18px;
+    }
+
+    .history-title {
+      font-weight: 950;
+      margin-bottom: 10px;
+      font-size: 22px;
+    }
+
+    .history-item {
+      font-size: 15px;
+      color: #666;
+      line-height: 1.7;
+      padding: 10px 0;
+      border-bottom: 1px dashed #e4e6eb;
+    }
+
+    .result-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .nav-btn {
+      flex: 1;
+      text-align: center;
+    }
+
+    .nav-btn.prev {
+      background: #f1f3f7;
+      color: #222;
+    }
+
+    .nav-btn.next {
+      background: #222;
+      color: #fff;
+    }
+
+    .restart-btn {
+      width: 100%;
+      text-align: center;
+      background: #fff;
+      color: #555;
+      border: 1px solid #e5e7eb;
+      margin-top: 14px;
+    }
+
+    .footer-note {
+      margin-top: 16px;
+      color: #888;
+      font-size: 13px;
+      line-height: 1.55;
+      white-space: pre-line;
+    }
+
+    @media (max-width: 760px) {
+      .wrap { margin: 24px auto; }
+      .hero, .card { padding: 24px; border-radius: 22px; }
+      .info-grid, .summary-grid, .calc-row { grid-template-columns: 1fr; }
+      .hero::after { font-size: 88px; right: -20px; bottom: -24px; }
+      .result-nav { flex-direction: column; }
+    }
+
+    @media (max-width: 760px) {
+      .benefit-content,
+      .benefit-content.two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .benefit-main {
+        white-space: normal;
+      }
+
+      .benefit-item.main {
+        padding-left: 12px;
+        background: rgba(255, 255, 255, 0.72);
+      }
+
+      .benefit-copy br {
+        display: none;
+      }
+    }
+
+
+    @media (max-width: 760px) {
+      .benefit-panel {
+        padding: 18px;
+        border-radius: 22px;
+      }
+
+      .benefit-content,
+      .benefit-content.two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .benefit-item {
+        min-height: auto;
+      }
+
+      .benefit-main {
+        white-space: normal;
+      }
+
+      .benefit-copy br {
+        display: none;
+      }
+    }
+
+  </style>
+  <script>
+    window.va = window.va || function () {
+      (window.vaq = window.vaq || []).push(arguments);
+    };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+
+<body>
+  <main class="wrap">
+    <div id="introScreen" class="intro-screen">
+      <section class="hero">
+        <span class="badge">2026 3Q KAKAO ASAP</span>
+        <h1>카카오 ASAP<br />참여 가능여부 확인기</h1>
+        <p class="subtitle">
+          광고주의 기존 집행 여부, 기참여 이력, 신청 유형, 집행 기준을 확인하여 신규/증액 프로그램 참여 가능성을 빠르게 판단합니다.
+        </p>
+
+        <div class="benefit-panels">
+          <div class="benefit-panel">
+            <div class="benefit-title">광고주 혜택 ★</div>
+            <div class="benefit-content">
+              <div class="benefit-item main">
+                <div class="benefit-main">무상캐시 지급</div>
+                <div class="benefit-copy">조건 충족 시 최대 3,000만 원</div>
+              </div>
+
+              <div class="benefit-item">
+                <span class="benefit-chip">신규</span>
+                <span class="benefit-copy">집행액 기준<br />월별 50% / 70% / 120%<br />차등 지급</span>
+              </div>
+
+              <div class="benefit-item">
+                <span class="benefit-chip">증액</span>
+                <span class="benefit-copy">25년 3분기 대비<br />20% 이상 증액 시<br />증액분 100% 지급</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="benefit-panel">
+            <div class="benefit-title">대행사 / AE 혜택 ★</div>
+            <div class="benefit-content two-col">
+              <div class="benefit-item agency-benefit">대행수수료 최대 45%</div>
+              <div class="benefit-item agency-benefit">마케터 상품권 최대 31만 원</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="start-box">
+        <button class="start-btn" onclick="startSurvey()">시작하기 →</button>
+      </section>
+    </div>
+
+    <section id="surveyScreen" class="card survey-screen">
+      <div id="questionArea">
+        <div class="progress-area">
+          <span class="step-label" id="stepLabel">문항 1</span>
+          <div class="progress-track">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+        </div>
+
+        <div class="question" id="questionText"></div>
+        <div class="hint" id="questionHint"></div>
+        <div class="choices" id="choices"></div>
+
+        <button class="ghost" onclick="goBack()">이전 문항으로 돌아가기</button>
+      </div>
+
+    </section>
+
+    <section id="resultScreen" class="card result-screen">
+      <div id="resultArea" class="result">
+        <div class="result-header">
+          <span class="result-kicker" id="resultKicker"></span>
+          <h2 class="result-title" id="resultTitle"></h2>
+          <p class="result-desc" id="resultDesc"></p>
+        </div>
+
+        <div class="page-indicator">
+          <button type="button" class="page-chip active" id="chip1" onclick="showResultPage(1)">결과 요약</button>
+          <button type="button" class="page-chip" id="chip2" onclick="showResultPage(2)">무상캐시 계산</button>
+          <button type="button" class="page-chip" id="chip3" onclick="showResultPage(3)">응답 내역</button>
+        </div>
+
+        <div id="resultPage1" class="result-page active">
+          <div class="apply-box" id="applyBox">
+            <strong>참여 가능 사업자입니다.</strong>
+            <p>아래 두 링크에 모두 참여해주셔야 카카오 ASAP 프로그램에 참여할 수 있습니다.</p>
+            <a class="apply-link" href="https://docs.google.com/forms/d/e/1FAIpQLSdoiycmMNUNWjXzHO6YJvyZVJEXwYvTQkAIb8xyRMCuw5TY7Q/viewform" target="_blank" rel="noopener noreferrer">
+              1) ASAP 프로그램 신청
+            </a>
+            <a class="apply-link" href="https://docs.google.com/spreadsheets/d/1B1iOj7gh6-6ChWSrZy8g--vAA-ZUWKi1qPHvpLYfwjc/edit?gid=0#gid=0" target="_blank" rel="noopener noreferrer">
+              2) 카카오 ASAP 신청완료 시트
+            </a>
+          </div>
+
+          <div class="summary-grid">
+            <div class="summary-box">
+              <small>참여 유형</small>
+              <strong id="summaryType"></strong>
+            </div>
+            <div class="summary-box">
+              <small>핵심 기준</small>
+              <strong id="summaryRule"></strong>
+            </div>
+            <div class="summary-box">
+              <small>최소 집행금액</small>
+              <strong id="summaryMin"></strong>
+            </div>
+            <div class="summary-box">
+              <small>지급 기준</small>
+              <strong id="summaryBenefit"></strong>
+            </div>
+          </div>
+
+          <div class="notice" id="resultNotice"></div>
+        </div>
+
+        <div id="resultPage2" class="result-page">
+          <div class="calc-area" id="calcArea">
+            <div class="calc-title">예상 무상캐시 간이 계산</div>
+            <div class="calc-row" id="calcInputs"></div>
+            <button class="calc-btn" onclick="calculateBenefit()">계산하기</button>
+            <div class="calc-result" id="calcResult"></div>
+          </div>
+
+          <div class="empty-box" id="calcEmpty" style="display:none;">
+            해당 결과는 무상캐시 계산기 제공 대상이 아닙니다.<br />
+            참여 가능 조건 충족 시에만 계산기를 사용할 수 있습니다.
+          </div>
+        </div>
+
+        <div id="resultPage3" class="result-page">
+          <div class="history">
+            <div class="history-title">응답 내역</div>
+            <div id="historyList"></div>
+          </div>
+        </div>
+
+        <div class="result-nav">
+          <button class="nav-btn prev" id="prevPageBtn" onclick="changeResultPage(-1)">← 이전 페이지</button>
+          <button class="nav-btn next" id="nextPageBtn" onclick="changeResultPage(1)">다음 페이지 →</button>
+        </div>
+
+        <button class="restart-btn" onclick="restart()">처음부터 다시 확인하기</button>
+      </div>
+
+    </section>
+  </main>
+
+  <script>
+    const MAX_CASH = 30000000;
+    let currentResultPage = 1;
+
+    const questions = {
+      q1: {
+        no: 1,
+        text: "광고주가 2026년 ASAP 프로그램에\n이미 참여한 이력이 있습니까?",
+        hint: "사업자당 연간 1회 참여가능합니다\n단, 26년 신규부문 참여 사업자는 3분기 증액으로 재참여 가능합니다.",
+        choices: [
+          { label: "없음", next: "q2", primary: true },
+          { label: "26년 2분기 신규 참여 이력 있음", next: "q1_1" },
+          { label: "26년 2분기 증액 참여 이력 있음", next: "already_2026" },
+          { label: "25년 프로그램 참여 이력만 있음", next: "q2_25" }
+        ]
+      },
+      q1_1: {
+        no: 2,
+        text: "3분기에는 증액 유형으로 재참여하려는 건입니까?",
+        hint: "26년 2분기 신규 참여 사업자는 3분기 증액으로 재참여 가능하나, 25년 3분기 기준 20%이상 증액필요합니다.",
+        choices: [
+          { label: "예, 증액으로 신청", next: "q4_qoq", primary: true },
+          { label: "아니오, 신규로 신청", next: "new_after_q2_new_not_allowed" }
+        ]
+      },
+      q2_25: {
+        no: 2,
+        text: "25년 프로그램 기참여 사업자이며 26년 3분기에는 증액으로 신청하려는 건입니까?",
+        hint: "25년 프로그램 기참여 사업자도 26년 프로그램은 증액으로 재참여 가능합니다.",
+        choices: [
+          { label: "예, 증액으로 신청", next: "q4", primary: true },
+          { label: "아니오, 신규로 신청", next: "new_after_2025_not_recommended" }
+        ]
+      },
+      q2: {
+        no: 2,
+        text: "신청하려는 유형은 무엇입니까?",
+        hint: "신규 : 25년 3분기 평균 10만 원 미만 집행 사업자\n증액 : 사업자증액은 25년 3분기 평균 10만 원 이상 기집행 사업자",
+        choices: [
+          { label: "신규", next: "q3_new", primary: true },
+          { label: "증액", next: "q3_growth" }
+        ]
+      },
+      q3_new: {
+        no: 3,
+        text: "2025년 3분기 기준 분기 평균 집행액이\n10만 원 미만이거나 신규 사업자입니까?",
+        hint: "신규 유형의 기준은 2025년 3Q(7~9월) 분기 평균 10만 원 미만 기집행 또는 신규 사업자입니다.",
+        choices: [
+          { label: "예", next: "q5_new", primary: true },
+          { label: "아니오", next: "new_not_eligible" }
+        ]
+      },
+      q3_growth: {
+        no: 3,
+        text: "2025년 3분기 기준 분기 평균 집행액이 10만 원 이상입니까?",
+        hint: "증액 유형은 2025년 3Q(7~9월) 분기 평균 10만 원 이상 기집행 사업자가 대상입니다.",
+        choices: [
+          { label: "예", next: "q4", primary: true },
+          { label: "아니오", next: "growth_not_eligible" }
+        ]
+      },
+      q4: {
+        no: 4,
+        text: "25년 3분기 기준 20% 이상 증액이 가능합니까?",
+        hint: "25년 3분기 20% 이상 증액 시, 증액분의 100%를 무상캐시로 지급합니다.",
+        choices: [
+          { label: "예", next: "q5_growth", primary: true },
+          { label: "아니오", next: "growth_need_increase" }
+        ]
+      },
+      q4_qoq: {
+        no: 4,
+        text: "26년 2분기 대비 3분기 20% 이상 증액이 가능합니까?",
+        hint: "26년 2분기 신규 참여 사업자의 3분기 증액 재참여는 20% 이상 증액이 필요합니다.",
+        choices: [
+          { label: "예", next: "q5_growth_qoq", primary: true },
+          { label: "아니오", next: "qoq_need_increase" }
+        ]
+      },
+      q5_new: {
+        no: 5,
+        text: "월 최소 집행금액 200만 원 이상 집행이 가능합니까?",
+        hint: "신규 부문은 매월 최소집행금액 200만 원 조건이 있습니다.",
+        choices: [
+          { label: "예", next: "q6_new", primary: true },
+          { label: "아니오", next: "new_min_not_met" }
+        ]
+      },
+      q5_growth: {
+        no: 5,
+        text: "월 최소 집행금액 300만 원 이상 집행이 가능합니까?",
+        hint: "증액 유형은 최소집행금액 300만 원 기준입니다.",
+        choices: [
+          { label: "예", next: "q6_growth", primary: true },
+          { label: "아니오", next: "growth_min_not_met" }
+        ]
+      },
+      q5_growth_qoq: {
+        no: 5,
+        text: "월 최소 집행금액 300만 원 이상 집행이 가능합니까?",
+        hint: "증액 재참여도 증액 유형 기준에 따라 월 최소집행금액 300만 원 이상 여부를 확인합니다.",
+        choices: [
+          { label: "예", next: "q6_growth_qoq", primary: true },
+          { label: "아니오", next: "growth_min_not_met" }
+        ]
+      },
+      q6_new: {
+        no: 6,
+        text: "대상 상품 확인부탁드립니다.",
+        hint: "대상 상품: 성과형 광고, 보장형 광고, 채널 메시지(카카오모먼트, 채널관리자센터)\n 제외 : 비즈메시지, 검색광고",
+        choices: [
+          { label: "확인했습니다.", next: "q_coupon_new", primary: true },
+          { label: "참여하지 않겠습니다.", next: "product_not_eligible" }
+        ]
+      },
+      q6_growth: {
+        no: 6,
+        text: "대상 상품 확인부탁드립니다",
+        hint: "대상 상품: 성과형 광고, 보장형 광고, 채널 메시지(카카오모먼트, 채널관리자센터)\n 제외 : 비즈메시지, 검색광고.",
+        choices: [
+          { label: "예", next: "q7_growth", primary: true },
+          { label: "아니오", next: "product_not_eligible" }
+        ]
+      },
+      q6_growth_qoq: {
+        no: 6,
+        text: "대상 상품 확인부탁드립니다",
+        hint: "대상 상품: 성과형 광고, 보장형 광고, 채널 메시지(카카오모먼트, 채널관리자센터)\n 제외 : 비즈메시지, 검색광고.",
+        choices: [
+          { label: "예", next: "q7_growth_qoq", primary: true },
+          { label: "아니오", next: "product_not_eligible" }
+        ]
+      },
+      q_coupon_new: {
+        no: 8,
+        text: "지급받은 무상쿠폰은 당월소진이 필수입니다.",
+        hint: "당월 사용처리하지 않을 경우 추가 지급이 불가합니다\n7월 프로모션 신청 시, 7월 내 유상 모두 소진 > 7월 내 무상캐시까지 소진 필요",
+        choices: [
+          { label: "확인했습니다.", next: "q7_new", primary: true },
+          { label: "참여하지 않겠습니다.", next: "coupon_not_agreed" }
+        ]
+      },
+      q_coupon_growth: {
+        no: 8,
+        text: "지급받은 무상쿠폰은 당월소진이 필수입니다.",
+        hint: "당월 사용처리하지 않을 경우 추가 지급이 불가합니다\n7월 프로모션 신청 시, 7월 내 유상 모두 소진 > 7월 내 무상캐시까지 소진 필요",
+        choices: [
+          { label: "확인했습니다.", next: "q8_growth", primary: true },
+          { label: "참여하지 않겠습니다.", next: "coupon_not_agreed" }
+        ]
+      },
+      q_coupon_growth_qoq: {
+        no: 8,
+        text: "지급받은 무상쿠폰은 당월소진이 필수입니다.",
+        hint: "당월 사용처리하지 않을 경우 추가 지급이 불가합니다\n7월 프로모션 신청 시, 7월 내 유상 모두 소진 > 7월 내 무상캐시까지 소진 필요",
+        choices: [
+          { label: "확인했습니다.", next: "q8_growth_qoq", primary: true },
+          { label: "참여하지 않겠습니다.", next: "coupon_not_agreed" }
+        ]
+      },
+      q7_new: {
+        no: 9,
+        text: "신청 기간과 참여 기간은 어느 유형입니까?",
+        hint: "1차 신청은 3개월 또는 2개월 프로그램, 2차 신청은 2개월 프로그램 신청 기준입니다.",
+        choices: [
+          { label: "1차 신청 / 3개월 프로그램 (7 ~ 9월) ", next: "eligible_new_3m", primary: true },
+          { label: "1차 신청 / 2개월 프로그램 (7 ~ 8월 / 8 ~ 9월)", next: "eligible_new_2m" },
+          { label: "2차 신청 / 2개월 프로그램 (8 ~ 9월)", next: "eligible_new_2m_second" }
+        ]
+      },
+      q7_growth: {
+        no: 7,
+        text: "참여 기간 내 매월 증액이 가능합니까?",
+        hint: "증액 유형은 참여 분기 내 매월 증액이 필수입니다.(1원이라도 증액 필수)",
+        choices: [
+          { label: "예", next: "q_coupon_growth", primary: true },
+          { label: "아니오", next: "growth_mom_not_met" }
+        ]
+      },
+      q7_growth_qoq: {
+        no: 7,
+        text: "참여 기간 내 매월 증액이 가능합니까?",
+        hint: "증액 유형은 참여 분기 내 매월 증액이 필수입니다.(1원이라도 증액 필수)",
+        choices: [
+          { label: "예", next: "q_coupon_growth_qoq", primary: true },
+          { label: "아니오", next: "growth_mom_not_met" }
+        ]
+      },
+      q8_growth: {
+        no: 9,
+        text: "신청 기간과 참여 기간은 어느 유형입니까?",
+        hint: "1차 신청은 3개월 또는 2개월 프로그램, 2차 신청은 2개월 프로그램 신청 기준입니다.",
+        choices: [
+          { label: "1차 신청 / 3개월 프로그램", next: "eligible_growth_3m", primary: true },
+          { label: "1차 신청 / 2개월 프로그램", next: "eligible_growth_2m" },
+          { label: "2차 신청 / 2개월 프로그램", next: "eligible_growth_2m_second" }
+        ]
+      },
+      q8_growth_qoq: {
+        no: 9,
+        text: "신청 기간과 참여 기간은 어느 유형입니까?",
+        hint: "1차 신청은 3개월 또는 2개월 프로그램, 2차 신청은 2개월 프로그램 신청 기준입니다.",
+        choices: [
+          { label: "1차 신청 / 3개월 프로그램", next: "eligible_growth_qoq_3m", primary: true },
+          { label: "1차 신청 / 2개월 프로그램", next: "eligible_growth_qoq_2m" },
+          { label: "2차 신청 / 2개월 프로그램", next: "eligible_growth_qoq_2m_second" }
+        ]
+      }
+    };
+
+    const results = {
+      eligible_new_3m: eligibleNew("참여 가능: 신규 3개월", "1차 신청 / 3개월 프로그램", "7월~9월"),
+      eligible_new_2m: eligibleNew("참여 가능: 신규 2개월", "1차 신청 / 2개월 프로그램", "7월~8월 또는 8월~9월"),
+      eligible_new_2m_second: eligibleNew("참여 가능: 신규 2개월", "2차 신청 / 2개월 프로그램", "8월~9월"),
+      eligible_growth_3m: eligibleGrowth("참여 가능: 증액 3개월", "1차 신청 / 3개월 프로그램", "7월~9월", "YoY 20% 이상 증액"),
+      eligible_growth_2m: eligibleGrowth("참여 가능: 증액 2개월", "1차 신청 / 2개월 프로그램", "7월~8월 또는 8월~9월", "YoY 20% 이상 증액"),
+      eligible_growth_2m_second: eligibleGrowth("참여 가능: 증액 2개월", "2차 신청 / 2개월 프로그램", "8월~9월", "YoY 20% 이상 증액"),
+      eligible_growth_qoq_3m: eligibleGrowth("참여 가능: 증액 재참여 3개월", "1차 신청 / 3개월 프로그램", "7월~9월", "QoQ 20% 이상 증액"),
+      eligible_growth_qoq_2m: eligibleGrowth("참여 가능: 증액 재참여 2개월", "1차 신청 / 2개월 프로그램", "7월~8월 또는 8월~9월", "QoQ 20% 이상 증액"),
+      eligible_growth_qoq_2m_second: eligibleGrowth("참여 가능: 증액 재참여 2개월", "2차 신청 / 2개월 프로그램", "8월~9월", "QoQ 20% 이상 증액"),
+
+      already_2026: blockResult(
+        "참여 어려움",
+        "26년 프로그램 기참여 이력이 있어 사업자당 연간 1회 참여 조건에 걸릴 수 있습니다.",
+        "참여 불가 또는 별도 확인 필요",
+        "사업자당 연간 1회 참여 가능",
+        "-",
+        "-",
+        "26년 2분기 신규 참여 후 3분기 증액으로 재참여하는 예외 케이스가 아니라면 참여가 어려운 것으로 판단됩니다."
+      ),
+      new_after_q2_new_not_allowed: blockResult(
+        "참여 어려움",
+        "26년 2분기 신규 참여 사업자는 3분기 신규가 아닌 증액 유형으로 재참여 가능한 구조입니다.",
+        "신규 재참여 불가",
+        "26년 2Q 신규 참여자는 3Q 증액 재참여만 가능",
+        "-",
+        "-",
+        "증액 유형으로 전환하여 QoQ 20% 이상 증액 가능 여부를 다시 확인하세요."
+      ),
+      new_after_2025_not_recommended: blockResult(
+        "확인 필요",
+        "25년 프로그램 기참여 사업자는 26년 프로그램 증액으로 재참여 가능하므로 신규 신청은 별도 확인이 필요합니다.",
+        "신규 신청 확인 필요",
+        "25년 기참여 사업자는 26년 증액 재참여 가능",
+        "-",
+        "-",
+        "25년 참여사업자는 증액부문으로만 참여가 가능합니다."
+      ),
+      new_not_eligible: blockResult(
+        "신규 참여 어려움",
+        "2025년 3분기 평균 집행액이 10만 원 이상이면 신규 기준에 해당하지 않습니다.",
+        "신규 기준 미충족",
+        "2025년 3Q 평균 10만 원 미만 또는 신규 사업자",
+        "월 200만 원",
+        "월별 50%/70%/120%",
+        "증액 유형으로 신청 가능한지 확인하세요."
+      ),
+      growth_not_eligible: blockResult(
+        "증액 참여 어려움",
+        "2025년 3분기 평균 집행액이 10만 원 미만이면 증액 기준에 해당하지 않습니다.",
+        "증액 기준 미충족",
+        "2025년 3Q 평균 10만 원 이상 기집행",
+        "월 300만 원",
+        "증액분 100%",
+        "신규 유형으로 신청 가능한지 확인하세요."
+      ),
+      growth_need_increase: blockResult(
+        "참여 조건 미충족",
+        "증액 유형은 YoY 기준 20% 이상 증액이 필요합니다.",
+        "증액 조건 미충족",
+        "YoY 20% 이상 증액",
+        "월 300만 원",
+        "증액분 100%",
+        "참여 기간 예산을 재산정하여 20% 이상 증액 가능 여부를 다시 확인하세요."
+      ),
+      qoq_need_increase: blockResult(
+        "참여 조건 미충족",
+        "26년 2분기 신규 참여 사업자의 3분기 증액 재참여는 QoQ 20% 이상 증액이 필요합니다.",
+        "재참여 증액 조건 미충족",
+        "QoQ 20% 이상 증액",
+        "월 300만 원",
+        "증액분 100%",
+        "2분기 대비 3분기 예산을 20% 이상 높일 수 있는지 재검토하세요."
+      ),
+      new_min_not_met: blockResult(
+        "참여 조건 미충족",
+        "신규 유형은 월 최소 집행금액 200만 원 이상이 필요합니다.",
+        "신규 최소 집행금액 미충족",
+        "월 200만 원 이상",
+        "월 200만 원",
+        "월별 50%/70%/120%",
+        "월 집행 계획을 200만 원 이상으로 조정 가능한지 확인하세요."
+      ),
+      growth_min_not_met: blockResult(
+        "참여 조건 미충족",
+        "증액 유형은 월 최소 집행금액 300만 원 이상이 필요합니다.",
+        "증액 최소 집행금액 미충족",
+        "월 300만 원 이상",
+        "월 300만 원",
+        "증액분 100%",
+        "월 집행 계획을 300만 원 이상으로 조정 가능한지 확인하세요."
+      ),
+      growth_mom_not_met: blockResult(
+        "참여 조건 미충족",
+        "증액 유형은 참여 분기 내 매월 증액이 필수입니다.(1원이라도 필수)",
+        "매월 증액 조건 미충족",
+        "참여 분기 내 매월 증액 필수",
+        "월 300만 원",
+        "증액분 100%",
+        "월별 예산이 전월 대비 증가하도록 집행 계획을 다시 구성하세요."
+      ),
+      coupon_not_agreed: blockResult(
+        "참여 어려움",
+        "지급받은 무상쿠폰은 당월소진이 필수이며, 해당 조건에 동의하지 않을 경우 ASAP 프로그램 참여 진행이 어렵습니다.",
+        "무상쿠폰 당월소진 조건 미동의",
+        "지급받은 무상쿠폰 당월 사용처리 필수",
+        "-",
+        "당월 미사용 시 추가 지급 불가",
+        "무상쿠폰은 지급 월 내 사용처리가 필요합니다. 당월 사용처리하지 않을 경우 추가 지급이 불가하므로, 해당 조건 확인 후 참여 여부를 다시 검토하세요."
+      ),
+      product_not_eligible: blockResult(
+        "참여 어려움",
+        "집행 상품이 대상 상품에 해당하지 않으면 ASAP 참여가 어렵습니다.",
+        "대상 상품 미해당",
+        "성과형 광고, 보장형 광고, 채널 메시지 대상",
+        "-",
+        "-",
+        "비즈메시지와 검색은 제외되므로, 대상 상품 중심으로 집행 구조를 변경할 수 있는지 확인하세요."
+      )
+    };
+
+    function eligibleNew(title, program, period) {
+      return {
+        status: "참여 가능",
+        title,
+        desc: `${program} 기준으로 신규 유형 참여가 가능합니다. 참여 기간은 ${period}입니다.`,
+        type: "신규",
+        rule: "2025년 3Q 평균 10만 원 미만 기집행 또는 신규 사업자",
+        min: "월 200만 원",
+        benefit: "집행액 기준 월별 50% / 70% / 120% 차등 지급",
+        notice: "신규 유형은 참여 분기 내 MoM 증액 여부와 무관합니다. 첫 달 달성 시 익월도 자동 참여되며, 미달성 시 참여 대상에서 자동 제외됩니다.",
+        calcType: "new"
+      };
+    }
+
+    function eligibleGrowth(title, program, period, increaseRule) {
+      return {
+        status: "참여 가능",
+        title,
+        desc: `${program} 기준으로 증액 유형 참여가 가능합니다. 참여 기간은 ${period}입니다.`,
+        type: "증액",
+        rule: `${increaseRule} + 참여 분기 내 매월 증액 필수`,
+        min: "월 300만 원",
+        benefit: "증액분 기준 100% 무상캐시 지급",
+        notice: "증액 유형은 월 최소 300만 원 이상 집행, 20% 이상 증액, 참여 기간 내 MoM 증액 조건을 함께 충족해야 합니다. \n첫 달 달성 시 익월도 자동 참여되며, 미달성 시 참여 대상에서 자동 제외됩니다.",
+        calcType: increaseRule.includes("QoQ") ? "growth_qoq" : "growth"
+      };
+    }
+
+    function blockResult(title, desc, type, rule, min, benefit, notice) {
+      return {
+        status: "확인 결과",
+        title,
+        desc,
+        type,
+        rule,
+        min,
+        benefit,
+        notice,
+        calcType: "none"
+      };
+    }
+
+    let currentId = "q1";
+    let history = [];
+    let currentResult = null;
+
+
+    function startSurvey() {
+      if (window.va) {
+        window.va("event", {
+          name: "start_click"
+        });
+      }
+
+      document.getElementById("introScreen").style.display = "none";
+      document.getElementById("surveyScreen").style.display = "block";
+      document.getElementById("resultScreen").style.display = "none";
+      renderQuestion();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function showIntro() {
+      document.getElementById("introScreen").style.display = "block";
+      document.getElementById("surveyScreen").style.display = "none";
+      document.getElementById("resultScreen").style.display = "none";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderQuestion() {
+      const q = questions[currentId];
+
+      document.getElementById("introScreen").style.display = "none";
+      document.getElementById("surveyScreen").style.display = "block";
+      document.getElementById("resultScreen").style.display = "none";
+
+      document.getElementById("introScreen").style.display = "none";
+      document.getElementById("surveyScreen").style.display = "block";
+      document.getElementById("resultScreen").style.display = "none";
+      document.getElementById("questionArea").style.display = "block";
+      document.getElementById("resultArea").style.display = "none";
+
+      document.getElementById("stepLabel").innerText = `문항 ${q.no}`;
+      document.getElementById("questionText").innerText = q.text;
+      document.getElementById("questionHint").innerText = q.hint;
+
+      const maxStep = 9;
+      const percent = Math.min(100, Math.round((q.no / maxStep) * 100));
+      document.getElementById("progressBar").style.width = `${percent}%`;
+
+      const choices = document.getElementById("choices");
+      choices.innerHTML = q.choices.map((choice, index) => `
+        <button class="choice ${choice.primary ? "primary" : ""}" onclick="choose('${choice.next}', ${index})">
+          <span>${choice.label}</span>
+          <span>→</span>
+        </button>
+      `).join("");
+    }
+
+    function choose(nextId, choiceIndex) {
+      const q = questions[currentId];
+      const selected = q.choices[choiceIndex];
+
+      history.push({
+        questionNo: q.no,
+        questionText: q.text,
+        answer: selected.label,
+        fromId: currentId
+      });
+
+      if (questions[nextId]) {
+        currentId = nextId;
+        renderQuestion();
+      } else {
+        renderResult(nextId);
+      }
+    }
+
+    function renderResult(resultId) {
+      const result = results[resultId];
+      currentResult = result;
+
+      document.getElementById("introScreen").style.display = "none";
+      document.getElementById("surveyScreen").style.display = "none";
+      document.getElementById("resultScreen").style.display = "block";
+      document.getElementById("questionArea").style.display = "none";
+      document.getElementById("resultArea").style.display = "block";
+      document.getElementById("progressBar").style.width = "100%";
+
+      document.getElementById("resultKicker").innerText = result.status;
+      document.getElementById("resultTitle").innerText = result.title;
+      document.getElementById("resultDesc").innerText = result.desc;
+      document.getElementById("summaryType").innerText = result.type;
+      document.getElementById("summaryRule").innerText = result.rule;
+      document.getElementById("summaryMin").innerText = result.min;
+      document.getElementById("summaryBenefit").innerText = result.benefit;
+      document.getElementById("resultNotice").innerText = result.notice;
+
+      const applyBox = document.getElementById("applyBox");
+      if (result.status === "참여 가능") {
+        applyBox.style.display = "block";
+      } else {
+        applyBox.style.display = "none";
+      }
+
+      renderCalculator(result.calcType);
+
+      const historyList = document.getElementById("historyList");
+      historyList.innerHTML = history.map(item => `
+        <div class="history-item">
+          <strong>문항 ${item.questionNo}</strong> ${item.questionText}<br />
+          답변: ${item.answer}
+        </div>
+      `).join("");
+
+      currentResultPage = 1;
+      showResultPage(1, false);
+    }
+
+    function renderCalculator(calcType) {
+      const calcArea = document.getElementById("calcArea");
+      const calcInputs = document.getElementById("calcInputs");
+      const calcResult = document.getElementById("calcResult");
+      const calcEmpty = document.getElementById("calcEmpty");
+
+      calcResult.style.display = "none";
+      calcResult.innerHTML = "";
+
+      if (calcType === "none") {
+        calcArea.style.display = "none";
+        calcEmpty.style.display = "block";
+        return;
+      }
+
+      calcArea.style.display = "block";
+      calcEmpty.style.display = "none";
+
+      if (calcType === "new") {
+        calcInputs.innerHTML = `
+          <div>
+            <label>1개월차 집행액</label>
+            <input id="month1" type="text" inputmode="numeric" placeholder="예: 2,000,000" oninput="formatMoneyInput(this)" />
+          </div>
+          <div>
+            <label>2개월차 집행액</label>
+            <input id="month2" type="text" inputmode="numeric" placeholder="예: 3,000,000" oninput="formatMoneyInput(this)" />
+          </div>
+          <div>
+            <label>3개월차 집행액</label>
+            <input id="month3" type="text" inputmode="numeric" placeholder="예: 5,000,000" oninput="formatMoneyInput(this)" />
+          </div>
+          <div>
+            <label>참여 개월 수</label>
+            <select id="months">
+              <option value="3" selected>3개월</option>
+              <option value="2">2개월</option>
+            </select>
+          </div>
+        `;
+      } else {
+        calcInputs.innerHTML = `
+          <div>
+            <label>25년 3분기 소진액</label>
+            <input id="baseSpend" type="text" inputmode="numeric" placeholder="예: 10,000,000" oninput="formatMoneyInput(this)" />
+          </div>
+          <div>
+            <label>26년 3분기 예상 소진액</label>
+            <input id="plannedSpend" type="text" inputmode="numeric" placeholder="예: 13,000,000" oninput="formatMoneyInput(this)" />
+          </div>
+          <div>
+            <label>참여 개월 수</label>
+            <select id="months">
+              <option value="3" selected>3개월</option>
+              <option value="2">2개월</option>
+            </select>
+          </div>
+          <div>
+            <label>증액 기준</label>
+            <div class="fixed-info-text">25년 3분기 대비 20% 증액</div>
+          </div>
+        `;
+      }
+    }
+
+
+
+    function parseMoneyValue(value) {
+      return Number(String(value || "").replace(/,/g, "")) || 0;
+    }
+
+    function parseMoneyInput(id) {
+      const input = document.getElementById(id);
+      if (!input) return 0;
+      return parseMoneyValue(input.value);
+    }
+
+    function formatMoneyInput(input) {
+      const raw = String(input.value || "").replace(/[^0-9]/g, "");
+      if (!raw) {
+        input.value = "";
+        return;
+      }
+      input.value = Number(raw).toLocaleString("ko-KR");
+    }
+
+    function calculateBenefit() {
+      if (!currentResult) return;
+
+      const calcType = currentResult.calcType;
+      const calcResult = document.getElementById("calcResult");
+      calcResult.style.display = "block";
+
+      if (calcType === "new") {
+        const m1 = parseMoneyInput("month1");
+        const m2 = parseMoneyInput("month2");
+        const m3 = parseMoneyInput("month3");
+        const months = Number(document.getElementById("months").value || 3);
+        const rates = [0.5, 0.7, 1.2];
+        const spends = [m1, m2, m3].slice(0, months);
+        const benefit = spends.reduce((sum, spend, idx) => sum + spend * rates[idx], 0);
+        const finalBenefit = Math.min(benefit, MAX_CASH);
+
+        calcResult.innerHTML = `
+          예상 무상캐시: <strong>${formatWon(finalBenefit)}</strong><br />
+          산식: 1개월차 50%, 2개월차 70%, 3개월차 120% 적용<br />
+          최대 지급 한도: ${formatWon(MAX_CASH)}
+        `;
+        return;
+      }
+
+      if (calcType === "growth" || calcType === "growth_qoq") {
+        const baseSpend = parseMoneyInput("baseSpend");
+        const plannedSpend = parseMoneyInput("plannedSpend");
+        const increase = plannedSpend - baseSpend;
+        const required = baseSpend * 1.2;
+        const benefit = Math.max(0, Math.min(increase, MAX_CASH));
+
+        calcResult.innerHTML = `
+          예상 무상캐시: <strong>${formatWon(benefit)}</strong><br />
+          25년 3분기 대비 20% 증액 충족 기준 집행액: ${formatWon(required)}<br />
+          현재 입력 기준 증액분: ${formatWon(increase)}<br />
+          ${plannedSpend >= required ? "25년 3분기 대비 20% 이상 증액 기준을 충족합니다." : "25년 3분기 대비 20% 이상 증액 기준을 충족하지 못합니다."}<br />
+          최대 지급 한도: ${formatWon(MAX_CASH)}
+        `;
+      }
+    }
+
+    function showResultPage(page, shouldScroll = true) {
+      currentResultPage = page;
+
+      for (let i = 1; i <= 3; i++) {
+        document.getElementById(`resultPage${i}`).classList.toggle("active", i === page);
+        document.getElementById(`chip${i}`).classList.toggle("active", i === page);
+      }
+
+      const prevBtn = document.getElementById("prevPageBtn");
+      const nextBtn = document.getElementById("nextPageBtn");
+
+      prevBtn.style.visibility = page === 1 ? "hidden" : "visible";
+      nextBtn.style.visibility = page === 3 ? "hidden" : "visible";
+
+      if (shouldScroll) {
+        window.scrollTo({ top: document.getElementById("resultArea").offsetTop - 20, behavior: "smooth" });
+      }
+    }
+
+    function changeResultPage(direction) {
+      let nextPage = currentResultPage + direction;
+      if (nextPage < 1) nextPage = 1;
+      if (nextPage > 3) nextPage = 3;
+      showResultPage(nextPage);
+    }
+
+    function formatWon(num) {
+      return Math.round(num).toLocaleString("ko-KR") + "원";
+    }
+
+    function goBack() {
+      if (history.length === 0) return;
+      const last = history.pop();
+      currentId = last.fromId;
+      renderQuestion();
+    }
+
+    function restart() {
+      currentId = "q1";
+      history = [];
+      currentResult = null;
+      currentResultPage = 1;
+      showIntro();
+    }
+    showIntro();
+  </script>
+</body>
+</html>
